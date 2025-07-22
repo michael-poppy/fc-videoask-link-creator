@@ -16,6 +16,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'healthy', service: 'consultant-scheduler-api' });
 });
 
+// Test environment variables endpoint
+app.get('/api/test-env', (req, res) => {
+  res.json({
+    hasLinklyKey: !!process.env.LINKLY_API_KEY,
+    linklyKeyLength: process.env.LINKLY_API_KEY ? process.env.LINKLY_API_KEY.length : 0,
+    linklyKeyStart: process.env.LINKLY_API_KEY ? process.env.LINKLY_API_KEY.substring(0, 5) + '...' : 'NOT SET',
+    hasLinklyUrl: !!process.env.LINKLY_API_URL,
+    linklyUrl: process.env.LINKLY_API_URL || 'NOT SET'
+  });
+});
+
 // Get customer event ID by email
 app.get('/api/customer/:email', async (req, res) => {
   const email = req.params.email;
