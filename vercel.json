@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api-server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "!(api-server.js)",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api-server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "POPPY_API_KEY": "@poppy-api-key",
+    "POPPY_API_URL": "@poppy-api-url",
+    "LINKLY_API_KEY": "@linkly-api-key",
+    "LINKLY_API_URL": "@linkly-api-url"
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poppy Consultant Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FC VideoAsk Link Creator</h1>
+            <p>Generate personalized poppy.click URLs for your leads</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <form id="schedulerForm">
+                    <div class="form-group">
+                        <label for="consultant">Select Your Name:</label>
+                        <select id="consultant" name="consultant" required>
+                            <option value="">Choose consultant...</option>
+                            <option value="fhet5m6wc">Adrienne</option>
+                            <option value="fw1uia55e">Hannah P</option>
+                            <option value="fuz1zo155">Mary</option>
+                            <option value="fpw2s43hu">Cortnie</option>
+                            <option value="fm1r0v1b5">Jennifer</option>
+                            <option value="fz8hqeu1p">Sahra</option>
+                            <option value="fuuz2axp4">Kelli</option>
+                            <option value="fjlj6zbro">Wendi</option>
+                            <option value="ftti7ph3w">Alicia</option>
+                            <option value="fcmvvj4sf">Sophia</option>
+                            <option value="ft9hbz6tn">Michelle</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Customer Email:</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="customer@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                        <small class="help-text">We'll look up their event ID automatically</small>
+                    </div>
+
+                    <div class="form-group optional-section">
+                        <details>
+                            <summary>Manual Event ID (optional)</summary>
+                            <input 
+                                type="text" 
+                                id="manualEventId" 
+                                name="manualEventId" 
+                                placeholder="Enter event ID if email lookup fails"
+                            >
+                            <small class="help-text">Only needed if automatic lookup doesn't work</small>
+                        </details>
+                    </div>
+
+                    <button type="submit" id="generateBtn" class="btn btn-primary">
+                        <span class="btn-text">Generate Link</span>
+                        <span class="spinner" style="display: none;">⏳</span>
+                    </button>
+                </form>
+
+                <div id="result" class="result-section" style="display: none;">
+                    <h3>Your VideoAsk Link is Ready!</h3>
+                    <div class="url-display">
+                        <input type="text" id="generatedUrl" readonly>
+                        <button id="copyBtn" class="btn btn-copy">Copy</button>
+                    </div>
+                    <div id="customerInfo" class="customer-info"></div>
+                </div>
+
+                <div id="error" class="error-section" style="display: none;">
+                    <p class="error-message"></p>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <h3>Recent Links</h3>
+                <div id="linkHistory" class="link-history">
+                    <p class="empty-state">No recent links yet</p>
+                </div>
+                <button id="clearHistory" class="btn btn-secondary" style="display: none;">
+                    Clear History
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Need help? Contact the Poppy tech team</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
