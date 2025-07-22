@@ -16,19 +16,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'healthy', service: 'consultant-scheduler-api' });
 });
 
-// Debug endpoint
-app.get('/api/debug-linkly', (req, res) => {
-  const apiKey = process.env.LINKLY_API_KEY;
-  res.json({
-    hasKey: !!apiKey,
-    keyLength: apiKey?.length,
-    firstChars: apiKey?.substring(0, 5),
-    lastChars: apiKey?.substring(apiKey.length - 5),
-    equals: apiKey === 'G8eEhWiZvnP+6jRKW0PXOw==',
-    url: process.env.LINKLY_API_URL
-  });
-});
-
 // Get customer event ID by email
 app.get('/api/customer/:email', async (req, res) => {
   const email = req.params.email;
@@ -128,12 +115,6 @@ app.post('/api/shorten', async (req, res) => {
       // slug is auto-generated if not provided
     };
     
-    console.log('Linkly request data:', JSON.stringify(linklyData, null, 2));
-    console.log('Environment check:', {
-      hasApiKey: !!process.env.LINKLY_API_KEY,
-      apiKeyLength: process.env.LINKLY_API_KEY?.length,
-      apiUrl: process.env.LINKLY_API_URL
-    });
     
     const response = await axios.post(
       process.env.LINKLY_API_URL,
@@ -169,12 +150,7 @@ app.post('/api/shorten', async (req, res) => {
       success: false,
       shortUrl: url,
       originalUrl: url,
-      error: 'URL shortening failed, using original URL',
-      errorDetails: {
-        message: error.message,
-        status: error.response?.status,
-        data: error.response?.data
-      }
+      error: 'URL shortening failed, using original URL'
     });
   }
 });
