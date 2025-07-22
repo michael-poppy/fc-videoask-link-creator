@@ -73,7 +73,17 @@ async function handleCustomerLookup(req, res) {
 }
 
 async function handleUrlShorten(req, res) {
-  const { url, title } = req.body;
+  // Parse body for Vercel serverless
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      return res.status(400).json({ error: 'Invalid JSON in request body' });
+    }
+  }
+  
+  const { url, title } = body;
   
   if (!url) {
     return res.status(400).json({ error: 'URL is required' });
@@ -88,6 +98,9 @@ async function handleUrlShorten(req, res) {
       name: title || 'Poppy Floral Consultation',
       domain: 'poppy.click'
     };
+    
+    console.log('Linkly request data:', JSON.stringify(linklyData, null, 2));
+    console.log('Linkly URL:', process.env.LINKLY_API_URL);
     
     const response = await axios.post(
       process.env.LINKLY_API_URL,
@@ -111,12 +124,14 @@ async function handleUrlShorten(req, res) {
     }
   } catch (error) {
     console.error('Error shortening URL:', error.message);
+    console.error('Error details:', error.response?.data || error);
     
     res.json({
       success: false,
       shortUrl: url,
       originalUrl: url,
-      error: 'URL shortening failed, using original URL'
+      error: 'URL shortening failed, using original URL',
+      details: error.message
     });
   }
 }
