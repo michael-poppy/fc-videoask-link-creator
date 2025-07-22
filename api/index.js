@@ -17,6 +17,14 @@ module.exports = async (req, res) => {
   // Route handling
   if (pathname === '/api/health') {
     res.json({ status: 'healthy', service: 'consultant-scheduler-api' });
+  } else if (pathname === '/api/test-env') {
+    res.json({
+      hasLinklyKey: !!process.env.LINKLY_API_KEY,
+      linklyKeyLength: process.env.LINKLY_API_KEY ? process.env.LINKLY_API_KEY.length : 0,
+      linklyKeyStart: process.env.LINKLY_API_KEY ? process.env.LINKLY_API_KEY.substring(0, 5) + '...' : 'NOT SET',
+      hasLinklyUrl: !!process.env.LINKLY_API_URL,
+      linklyUrl: process.env.LINKLY_API_URL || 'NOT SET'
+    });
   } else if (pathname.startsWith('/api/customer/')) {
     await handleCustomerLookup(req, res);
   } else if (pathname === '/api/shorten') {
