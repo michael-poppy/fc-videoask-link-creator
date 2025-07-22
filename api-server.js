@@ -116,6 +116,11 @@ app.post('/api/shorten', async (req, res) => {
     };
     
     console.log('Linkly request data:', JSON.stringify(linklyData, null, 2));
+    console.log('Environment check:', {
+      hasApiKey: !!process.env.LINKLY_API_KEY,
+      apiKeyLength: process.env.LINKLY_API_KEY?.length,
+      apiUrl: process.env.LINKLY_API_URL
+    });
     
     const response = await axios.post(
       process.env.LINKLY_API_URL,
@@ -151,7 +156,12 @@ app.post('/api/shorten', async (req, res) => {
       success: false,
       shortUrl: url,
       originalUrl: url,
-      error: 'URL shortening failed, using original URL'
+      error: 'URL shortening failed, using original URL',
+      errorDetails: {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data
+      }
     });
   }
 });
