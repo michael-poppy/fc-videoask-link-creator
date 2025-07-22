@@ -167,10 +167,15 @@ app.post('/api/shorten', async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Consultant Scheduler API running on http://localhost:${PORT}`);
-  console.log('Environment check:');
-  console.log('- Poppy API:', process.env.POPPY_API_URL ? '✓' : '✗');
-  console.log('- Linkly API:', process.env.LINKLY_API_URL ? '✓' : '✗');
-});
+// Export for Vercel
+module.exports = app;
+
+// Start server only if not in Vercel
+if (process.env.VERCEL !== '1' && require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Consultant Scheduler API running on http://localhost:${PORT}`);
+    console.log('Environment check:');
+    console.log('- Poppy API:', process.env.POPPY_API_URL ? '✓' : '✗');
+    console.log('- Linkly API:', process.env.LINKLY_API_URL ? '✓' : '✗');
+  });
+}
