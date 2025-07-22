@@ -16,6 +16,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'healthy', service: 'consultant-scheduler-api' });
 });
 
+// Debug endpoint
+app.get('/api/debug-linkly', (req, res) => {
+  const apiKey = process.env.LINKLY_API_KEY;
+  res.json({
+    hasKey: !!apiKey,
+    keyLength: apiKey?.length,
+    firstChars: apiKey?.substring(0, 5),
+    lastChars: apiKey?.substring(apiKey.length - 5),
+    equals: apiKey === 'G8eEhWiZvnP+6jRKW0PXOw==',
+    url: process.env.LINKLY_API_URL
+  });
+});
+
 // Get customer event ID by email
 app.get('/api/customer/:email', async (req, res) => {
   const email = req.params.email;
