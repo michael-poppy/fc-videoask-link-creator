@@ -99,8 +99,6 @@ async function handleUrlShorten(req, res) {
       domain: 'poppy.click'
     };
     
-    console.log('Linkly request data:', JSON.stringify(linklyData, null, 2));
-    console.log('Linkly URL:', process.env.LINKLY_API_URL);
     
     const response = await axios.post(
       process.env.LINKLY_API_URL,
@@ -124,14 +122,12 @@ async function handleUrlShorten(req, res) {
     }
   } catch (error) {
     console.error('Error shortening URL:', error.message);
-    console.error('Error details:', error.response?.data || error);
     
     res.json({
       success: false,
       shortUrl: url,
       originalUrl: url,
-      error: 'URL shortening failed, using original URL',
-      details: error.message
+      error: 'URL shortening failed, using original URL'
     });
   }
 }
